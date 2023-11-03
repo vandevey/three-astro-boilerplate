@@ -14,6 +14,7 @@ export class TCanvas {
     screen: { path: 'videos/SquareGlitch.mp4' },
     // pheonix: { path: 'models/phoenix_bird.glb' },
     room: { path: 'models/room.glb' },
+    roomTexture: { path: 'images/bake.png', flipY: false },
   }
 
   constructor(private container: HTMLElement) {
@@ -21,7 +22,7 @@ export class TCanvas {
       this.init()
       // this.createObjects()
       this.createModel()
-      this.addLights()
+      // this.addLights()
       gl.requestAnimationFrame(this.anime)
     })
   }
@@ -59,25 +60,27 @@ export class TCanvas {
     room.scene.scale.set(0.05, 0.05, 0.05)
 
 
-    const screen = this.assets.screen.data as THREE.VideoTexture
 
+    const screen = this.assets.screen.data as THREE.VideoTexture
+    const texture = this.assets.roomTexture.data as THREE.Texture
     // screen.play()
     // screen.loop = true
     // screen.muted = true
 
     room.scene.traverse((child) => {
       if (child.name === 'screen') {
-        console.log(child)
         child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: screen })
       }
+
+      if (child.name === 'room') {
+        child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: texture })
+      }
     })
+
 
     document.addEventListener('click', () => {
       this.assets.screen.source?.play()
     })
-
-
-
 
     gl.scene.add(room.scene)
     // const mesh = gltf.scene.children[0] as THREE.Mesh
@@ -99,7 +102,7 @@ export class TCanvas {
     // directionalLight.position.set(0.5, 0.5, 0.5)
     // gl.scene.add(directionalLight)
   }
-  
+
   // ----------------------------------
   // animation
   private anime = () => {
