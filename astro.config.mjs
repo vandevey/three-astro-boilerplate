@@ -3,7 +3,7 @@ import glsl from 'vite-plugin-glsl'
 
 // https://astro.build/config
 export default defineConfig({
-  site: '',
+  site: 'https://courageous-pie-deffd6.netlify.app',
   base: '/',
   server: {
     host: true,
