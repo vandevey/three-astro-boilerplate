@@ -1,0 +1,23 @@
+---
+import CanvasContainer from '../components/CanvasContainer.astro'
+import Layout from '../layouts/Default.astro'
+// import Navigation from '../components/Navigation.astro'
+---
+
+<Layout title="Demo">
+  <main>
+    <CanvasContainer />
+  </main>
+</Layout>
+
+<style lang="scss">
+  main {
+    width: 100%;
+    height: 100%;
+  }
+  .link {
+    position: absolute;
+    bottom: 1rem;
+    right: 2rem;
+  }
+</style>
