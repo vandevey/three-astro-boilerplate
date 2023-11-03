@@ -21,6 +21,7 @@ export class TCanvas {
       this.init()
       // this.createObjects()
       this.createModel()
+      this.addLights()
       gl.requestAnimationFrame(this.anime)
     })
   }
@@ -77,6 +78,7 @@ export class TCanvas {
 
 
 
+
     gl.scene.add(room.scene)
     // const mesh = gltf.scene.children[0] as THREE.Mesh
     // const material = mesh.material as THREE.MeshStandardMaterial
@@ -89,7 +91,15 @@ export class TCanvas {
     // gl.generateAnimationActions('pheonix')
 
   }
+  private addLights() {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    gl.scene.add(ambientLight)
 
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5)
+    // directionalLight.position.set(0.5, 0.5, 0.5)
+    // gl.scene.add(directionalLight)
+  }
+  
   // ----------------------------------
   // animation
   private anime = () => {
