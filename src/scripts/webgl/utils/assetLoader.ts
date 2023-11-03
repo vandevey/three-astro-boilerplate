@@ -8,7 +8,8 @@ export type Assets = {
     data?: THREE.Texture | THREE.VideoTexture | GLTF
     path: string
     encoding?: boolean
-    flipY?: boolean
+    flipY?: boolean,
+    source?: any
   }
 }
 
@@ -37,18 +38,19 @@ export async function loadAssets(assets: Assets) {
         const gltf = await gltfLoader.loadAsync(path)
         v.data = gltf
       } else if (['webm', 'mp4'].includes(extension)) {
-        const video = document.createElement('video')
-        video.src = path
-        video.muted = true
-        video.loop = true
-        video.autoplay = true
-        video.preload = 'metadata'
-        video.playsInline = true
-        video.play()
-        // await video.play()
-        const texture = new THREE.VideoTexture(video)
+        v.source = document.createElement('video')
+        
+        v.source.src = path
+        v.source.muted = true
+        v.source.loop = true
+        v.source.autoplay = true
+        v.source.preload = 'metadata'
+        v.source.playsInline = true
+        v.source.play()
+        // await v.source.play()
+        const texture = new THREE.VideoTexture(v.source)
         texture.needsUpdate = true
-        texture.userData.aspect = video.videoWidth / video.videoHeight
+        texture.userData.aspect = v.source.videoWidth / v.source.videoHeight
         v.encoding && (texture.colorSpace = THREE.SRGBColorSpace)
         v.data = texture
       } else if (['hdr'].includes(extension)) {

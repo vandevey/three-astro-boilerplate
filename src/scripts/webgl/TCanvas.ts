@@ -71,7 +71,11 @@ export class TCanvas {
       }
     })
 
-    
+    document.addEventListener('click', () => {
+      this.assets.screen.source?.play()
+    })
+
+
 
     gl.scene.add(room.scene)
     // const mesh = gltf.scene.children[0] as THREE.Mesh
