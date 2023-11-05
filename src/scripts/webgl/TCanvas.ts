@@ -58,25 +58,30 @@ export class TCanvas {
     const room = this.assets.room.data as GLTF
     console.log(room)
     room.scene.scale.set(0.05, 0.05, 0.05)
-
-
+    room.scene.position.set(0,-0.05, 0)
 
     const screen = this.assets.screen.data as THREE.VideoTexture
     const texture = this.assets.roomTexture.data as THREE.Texture
-    // screen.play()
-    // screen.loop = true
-    // screen.muted = true
+
+    const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff })
 
     room.scene.traverse((child) => {
+      child.material = whiteMaterial
+      
       if (child.name === 'screen') {
         child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: screen })
       }
-
       if (child.name === 'room') {
         child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: texture })
       }
+      if (child.name === 'tube') {
+        child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: texture })
+      }
+      if (child.name === 'neon') {
+        child.material = new THREE.MeshStandardMaterial({ color: 0xAD85B0, emissive: 0xf0f0f0})
+        // child.material = new THREE.MeshStandardMaterial({ color: 0xffffff})
+      }
     })
-
 
     document.addEventListener('click', () => {
       this.assets.screen.source?.play()
