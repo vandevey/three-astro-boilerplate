@@ -17,11 +17,14 @@ export class TCanvas {
     roomTexture: { path: 'images/bake.png', flipY: false },
   }
 
+  private hologram: THREE.Mesh
+
   constructor(private container: HTMLElement) {
     loadAssets(this.assets).then(() => {
       this.init()
       // this.createObjects()
       this.createModel()
+      this.createHologram()
       // this.addLights()
       gl.requestAnimationFrame(this.anime)
     })
@@ -67,7 +70,7 @@ export class TCanvas {
 
     room.scene.traverse((child) => {
       child.material = whiteMaterial
-      
+
       if (child.name === 'screen') {
         child.material = new THREE.MeshMatcapMaterial({ color: 0xffffff, map: screen })
       }
@@ -99,6 +102,15 @@ export class TCanvas {
     // gl.generateAnimationActions('pheonix')
 
   }
+
+  private createHologram() {
+    const geometry = new THREE.IcosahedronGeometry(0.01, 1)
+    const material = new THREE.MeshStandardMaterial({ emissive: 0xAD85B0, wireframe: true })
+    this.hologram = new THREE.Mesh(geometry, material)
+    this.hologram.position.set(-0.145, 0.03, -0.15)
+    gl.scene.add(this.hologram)
+  }
+
   private addLights() {
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
     gl.scene.add(ambientLight)
@@ -112,6 +124,10 @@ export class TCanvas {
   // animation
   private anime = () => {
     controls.update()
+
+    if(this.hologram) {
+      this.hologram.rotation.y = gl.time.elapsed * 0.5
+    }
     gl.render()
   }
 
